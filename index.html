@@ -2494,6 +2494,19 @@ class Component extends DCLogic {
         'pointer-events:none',
       ].join(';');
       // merged card: the label IS the card title; on hover the description morphs from the pointer end.
+      const lockText = !(window.omelette && window.omelette.writeFile);
+      const hideDesc = lockText && !(h.desc || '').trim();
+      // a top-side card grows upward from the leader; keep it below the nav (~150px)
+      const vh = (typeof window !== 'undefined' ? window.innerHeight : 900);
+      const cardBottomY = vh / 2 + anchorPx + STAGE_SHIFT - LEN - 5;
+      const roomAbove = Math.max(0, cardBottomY - 150 - 26);
+      const descMax = top ? Math.min(220, Math.max(110, Math.round(roomAbove / (vsc || 1)))) : 220;
+      // expanded card ≈ title + description + padding, in card-local px
+      const NAV_BOTTOM = 158;
+      const estCardH = 30 + descMax + 18;
+      const s = (vsc || 1);
+      const cardTopY = cardBottomY - estCardH * s;
+      const slide = (top && visible) ? Math.max(0, Math.min(160, Math.round((NAV_BOTTOM - cardTopY) / s))) : 0;
       const cardStyle = [
         'position:absolute', 'left:0', 'transform:translateX(-50%)',
         top ? ('bottom:' + (LEN + 5 - slide) + 'px') : ('top:' + (LEN + 5) + 'px'),
@@ -2518,19 +2531,6 @@ class Component extends DCLogic {
           : 'background:rgba(10,12,17,0.3);text-shadow:0 1px 7px rgba(0,0,0,0.85);'),
         'pointer-events:auto', 'cursor:' + (editLabels ? 'grab' : 'pointer'),
       ].join(';');
-      const lockText = !(window.omelette && window.omelette.writeFile);
-      const hideDesc = lockText && !(h.desc || '').trim();
-      // a top-side card grows upward from the leader; keep it below the nav (~150px)
-      const vh = (typeof window !== 'undefined' ? window.innerHeight : 900);
-      const cardBottomY = vh / 2 + anchorPx + STAGE_SHIFT - LEN - 5;
-      const roomAbove = Math.max(0, cardBottomY - 150 - 26);
-      const descMax = top ? Math.min(220, Math.max(110, Math.round(roomAbove / (vsc || 1)))) : 220;
-      // expanded card ≈ title + description + padding, in card-local px
-      const NAV_BOTTOM = 158;
-      const estCardH = 30 + descMax + 18;
-      const s = (vsc || 1);
-      const cardTopY = cardBottomY - estCardH * s;
-      const slide = (top && visible) ? Math.max(0, Math.min(160, Math.round((NAV_BOTTOM - cardTopY) / s))) : 0;
       const descWrapStyle = [
         'width:100%', 'overflow:hidden',
         hideDesc ? 'display:none' : null,
