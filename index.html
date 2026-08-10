@@ -1387,7 +1387,7 @@ class Component extends DCLogic {
               '2': [{ id: 'fc-02-a', ph: 'Board detail' }, { id: 'fc-02-b', ph: 'Bench test' }, { id: 'fc-02-c', ph: 'Detail' }],
               '1': [{ id: 'fc-01-a', ph: 'First board' }, { id: 'fc-01-b', ph: 'Early testing' }, { id: 'fc-01-c', ph: 'Pad avionics' }, { id: 'fc-01-d', ph: 'Strongback' }, { id: 'fc-01-e', ph: 'Ignition wiring' }, { id: 'fc-01-f', ph: 'Pad detail' }, { id: 'fc-01-video', ph: 'Launch video', video: true }]
             },
-            overview: "Omega is Liberty Rocketry's entry for IREC 2026 — a dual-deploy rocket powered by an M1845NT motor and carrying a laser-engraver payload." };
+            overview: "Omega is the Liberty Rocketry Team's fourth 10K COTS competition rocket designed to fly at IREC 2026. The key features of this rocket are listed above to highlight the entire team's efforts. For my specific work, see the Omega custom flight computer under Avionics." };
   scrollerRef = React.createRef();
   lightboxImgRef = React.createRef();
   viewerRef = React.createRef();
@@ -1427,20 +1427,20 @@ class Component extends DCLogic {
   //   pos  : position along the rocket length, 0% (tail / left) → 100% (nose / right)
   //   side : 'top' or 'bottom' — which way the leader + box extends
   HOTSPOTS = [
-    { label: 'Avionics Nosecone Bay',  side: 'top',    pos: '86%', desc: '' },
-    { label: 'Laser Engraver Payload', side: 'bottom', pos: '71%', desc: '' },
-    { label: 'Drogue Chute',           side: 'top',    pos: '58%', desc: '' },
-    { label: 'Recovery Bay',           side: 'bottom', pos: '48%', desc: '' },
-    { label: 'Main Chute',             side: 'top',    pos: '37%', desc: '' },
-    { label: 'M1845NT Motor',          side: 'bottom', pos: '23%', desc: '' },
-    { label: 'Boat Tail',              side: 'top',    pos: '10%', desc: '' },
+    { label: "Avionics Nosecone Bay", side: "top", pos: "63.5%", desc: "● Includes a GoPro Hero 10,\n   Altus Metrum\n   TeleGPS, and the custom\n   flight computer with        \n   an active GPS antenna" },
+    { label: "Laser Engraver Payload", side: "bottom", pos: "57.3%", desc: "● Galvanometric laser\n   engraver designed to etch\n   the Omega symbol on a\n   piece of anodized\n   aluminum in flight" },
+    { label: "Drogue Chute", side: "top", pos: "49.6%", desc: "● 24\" Elliptical drogue\n   parachute" },
+    { label: "Recovery Bay", side: "bottom", pos: "43.8%", desc: "● RRC3 and Altus Metrum\n   EasyMini to control\n   drogue and main charges" },
+    { label: "Main Chute", side: "top", pos: "38.2%", desc: "● 96\" Toroidal main parachute\n" },
+    { label: "M1845NT Motor", side: "bottom", pos: "30.5%", desc: "● 98 mm AeroTech solid\n   rocket motor with a\n   specific impulse of 225s and\n   a total impulse of\n   8307.0 Ns" },
+    { label: "Boat Tail", side: "top", pos: "21.5%", desc: "● 1.4:1 PET-GF15 base with\n   laminated carbon fiber sleeves" },
   ];
 
   // model 2 (lower rocket) exterior labels — come in from the top
   HOTSPOTS2 = [
-    { label: 'Nosecone', side: 'top', pos: '14%', desc: '' },
-    { label: 'Airframe', side: 'top', pos: '50%', desc: '' },
-    { label: 'Fin Can',  side: 'top', pos: '86%', desc: '' },
+    { label: "Nosecone", side: "top", pos: "30.5%", desc: "● 6:1 Fiberglass Tangent Ogive\n   nosecone" },
+    { label: "Airframe", side: "top", pos: "57.4%", desc: "● 6\" carbon fiber upper and lower\n   airframe sections connected by\n   a switch-band coupler" },
+    { label: "Fin Can", side: "top", pos: "75.3%", desc: "● 3 trapezoidal carbon fiber fins" },
   ];
 
   toggleSpin = () => this.setState(s => ({ spin: !s.spin }));
