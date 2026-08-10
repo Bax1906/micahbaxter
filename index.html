@@ -1993,9 +1993,13 @@ class Component extends DCLogic {
       const v = ref.current; if (!v || v._fbWired) return;
       v._fbWired = true;
       v.addEventListener('load', () => {
-        const a = this.viewerRef.current, b = this.viewer2Ref.current;
-        if (a && a.loaded && b && b.loaded && !this.state.omegaReady) this.setState({ omegaReady: true });
+        if (!this.state.omegaReady) this.setState({ omegaReady: true });
       });
+      if (!this._omegaReadyTimer) {
+        this._omegaReadyTimer = setTimeout(() => {
+          if (!this.state.omegaReady) this.setState({ omegaReady: true });
+        }, 6000);
+      }
       v.addEventListener('error', () => {
         const cur = (v.getAttribute('src') || '').split('?')[0];
         if (this.OMEGA_FALLBACK[cur] && !this.state.omegaRemote) this.setState({ omegaRemote: true });
@@ -2492,7 +2496,7 @@ class Component extends DCLogic {
       // merged card: the label IS the card title; on hover the description morphs from the pointer end.
       const cardStyle = [
         'position:absolute', 'left:0', 'transform:translateX(-50%)',
-        top ? ('bottom:' + (LEN + 5 - (visible ? 44 : 0)) + 'px') : ('top:' + (LEN + 5) + 'px'),
+        top ? ('bottom:' + (LEN + 5 - slide) + 'px') : ('top:' + (LEN + 5) + 'px'),
         'transition:bottom .26s ease, top .26s ease',
         'display:flex', 'flex-direction:column', 'align-items:center',
         'width:198px',
@@ -2521,6 +2525,12 @@ class Component extends DCLogic {
       const cardBottomY = vh / 2 + anchorPx + STAGE_SHIFT - LEN - 5;
       const roomAbove = Math.max(0, cardBottomY - 150 - 26);
       const descMax = top ? Math.min(220, Math.max(110, Math.round(roomAbove / (vsc || 1)))) : 220;
+      // expanded card ≈ title + description + padding, in card-local px
+      const NAV_BOTTOM = 158;
+      const estCardH = 30 + descMax + 18;
+      const s = (vsc || 1);
+      const cardTopY = cardBottomY - estCardH * s;
+      const slide = (top && visible) ? Math.max(0, Math.min(160, Math.round((NAV_BOTTOM - cardTopY) / s))) : 0;
       const descWrapStyle = [
         'width:100%', 'overflow:hidden',
         hideDesc ? 'display:none' : null,
