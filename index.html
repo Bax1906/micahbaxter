@@ -106,13 +106,13 @@
   <div style="position:sticky;top:0;height:0;z-index:30;overflow:visible;">
     <!-- top black scrim: invisible on black hero, masks project content scrolling up behind the nav/label -->
     <div style="position:absolute;top:0;left:0;right:0;height:185px;pointer-events:none;background:linear-gradient(to bottom, #000 0%, #000 26%, rgba(0,0,0,0) 100%);opacity:{{ scrimOpacity }};"></div>
-    <header style="position:absolute;top:0;left:0;right:0;display:flex;align-items:flex-start;gap:48px;padding:40px 56px 40px 40px;">
-      <div style="{{ navNameStyle }}">
+    <header style="position:absolute;top:0;left:0;right:0;display:flex;align-items:flex-start;gap:48px;padding:40px 56px 40px 40px;pointer-events:none;">
+      <div style="{{ navNameStyle }}pointer-events:auto;">
         <div style="font-size:28px;font-weight:700;letter-spacing:0.14em;color:#fff;line-height:1.05;text-transform:uppercase;">Micah Baxter</div>
         <div style="margin-top:7px;font-size:16px;font-weight:400;letter-spacing:0.34em;color:rgba(255,255,255,0.82);text-transform:uppercase;text-shadow:0 1px 12px rgba(0,0,0,0.7);">Mechanical Engineering</div>
         <div style="margin-top:4px;font-size:16px;font-weight:400;letter-spacing:0.34em;color:rgba(255,255,255,0.82);text-transform:uppercase;text-shadow:0 1px 12px rgba(0,0,0,0.7);">Liberty University</div>
       </div>
-      <nav style="{{ navMenuStyle }}">
+      <nav style="{{ navMenuStyle }}pointer-events:auto;">
         <div style="{{ navBarStyle }}"></div>
         <a href="#about" onClick="{{ scrollToTop }}" title="Back to top" aria-label="Back to top" style="position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:999px;text-decoration:none;transition:background .2s ease, opacity .2s ease;opacity:0.86;margin-left:-4px;margin-right:2px;" style-hover="opacity:1;background:rgba(255,255,255,0.08);">
           <img src="assets/logo-mark.png" alt="Home" width="34" height="34" style="display:block;width:34px;height:34px;object-fit:contain;filter:brightness(0) invert(1);">
@@ -2492,7 +2492,8 @@ class Component extends DCLogic {
       // merged card: the label IS the card title; on hover the description morphs from the pointer end.
       const cardStyle = [
         'position:absolute', 'left:0', 'transform:translateX(-50%)',
-        top ? ('bottom:' + (LEN + 5) + 'px') : ('top:' + (LEN + 5) + 'px'),
+        top ? ('bottom:' + (LEN + 5 - (visible ? 18 : 0)) + 'px') : ('top:' + (LEN + 5) + 'px'),
+        'transition:bottom .26s ease, top .26s ease',
         'display:flex', 'flex-direction:column', 'align-items:center',
         'width:198px',
         'padding:' + (visible ? '8px 11px' : '0'),
