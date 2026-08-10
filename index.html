@@ -182,7 +182,7 @@
         <div style="{{ h.wrapStyle }}" onMouseEnter="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onPointerDown="{{ h.onDown }}" onDoubleClick="{{ h.onFlip }}">
           <div style="{{ h.dotStyle }}"></div>
           <div style="{{ h.lineStyle }}"></div>
-          <div style="{{ h.cardStyle }}">
+          <div style="{{ h.cardStyle }}" onMouseEnter="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}">
             <div style="{{ h.boxSheen }}"></div>
             <div style="{{ h.titleStyle }}">{{ h.label }}</div>
             <div style="{{ h.descWrapStyle }}">
@@ -195,7 +195,7 @@
         <div style="{{ h.wrapStyle }}" onMouseEnter="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}" onPointerDown="{{ h.onDown }}" onDoubleClick="{{ h.onFlip }}">
           <div style="{{ h.dotStyle }}"></div>
           <div style="{{ h.lineStyle }}"></div>
-          <div style="{{ h.cardStyle }}">
+          <div style="{{ h.cardStyle }}" onMouseEnter="{{ h.onEnter }}" onMouseLeave="{{ h.onLeave }}">
             <div style="{{ h.boxSheen }}"></div>
             <div style="{{ h.titleStyle }}">{{ h.label }}</div>
             <div style="{{ h.descWrapStyle }}">
@@ -2515,10 +2515,15 @@ class Component extends DCLogic {
       ].join(';');
       const lockText = !(window.omelette && window.omelette.writeFile);
       const hideDesc = lockText && !(h.desc || '').trim();
+      // a top-side card grows upward from the leader; keep it below the nav (~150px)
+      const vh = (typeof window !== 'undefined' ? window.innerHeight : 900);
+      const cardBottomY = vh / 2 + anchorPx + STAGE_SHIFT - LEN - 5;
+      const roomAbove = Math.max(0, cardBottomY - 150 - 26);
+      const descMax = top ? Math.min(220, Math.max(110, Math.round(roomAbove / (vsc || 1)))) : 220;
       const descWrapStyle = [
         'width:100%', 'overflow:hidden',
         hideDesc ? 'display:none' : null,
-        'max-height:' + (visible ? '220px' : '0'),
+        'max-height:' + (visible ? descMax + 'px' : '0'),
         'opacity:' + (visible ? '1' : '0'),
         'margin-top:' + (visible ? '5px' : '0'),
         'transition:max-height .26s ease, opacity .2s ease, margin .26s ease',
