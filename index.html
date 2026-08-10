@@ -2488,17 +2488,14 @@ class Component extends DCLogic {
         : 'position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 5px rgba(0,0,0,0.7);';
       const lockText = !(window.omelette && window.omelette.writeFile);
       const hideDesc = lockText && !(h.desc || '').trim();
-      // a top-side card grows upward from the leader; keep it below the nav (~150px)
-      const vh = (typeof window !== 'undefined' ? window.innerHeight : 900);
-      const cardBottomY = vh / 2 + anchorPx + STAGE_SHIFT - LEN - 5;
-      const roomAbove = Math.max(0, cardBottomY - 150 - 26);
-      const descMax = top ? Math.min(220, Math.max(110, Math.round(roomAbove / (vsc || 1)))) : 220;
-      // expanded card ≈ title + description + padding, in card-local px
-      const NAV_BOTTOM = 158;
+      // Top-side cards expand EQUALLY above and below their resting spot, so a tall
+      // description never drives the card up into the nav bar. The leader line shortens
+      // by the same amount, keeping the bubble visually attached.
+      const descMax = 220;
+      const COLLAPSED_H = 16;
       const estCardH = 30 + descMax + 18;
-      const s = (vsc || 1);
-      const cardTopY = cardBottomY - estCardH * s;
-      const slide = (top && visible) ? Math.max(0, Math.min(160, Math.round((NAV_BOTTOM - cardTopY) / s))) : 0;
+      const grow = Math.max(0, estCardH - COLLAPSED_H);
+      const slide = (top && visible) ? Math.min(Math.round(LEN * 0.55), Math.round(grow / 2)) : 0;
       const lineStyle = [
         'position:absolute', 'left:0', 'width:1px', 'height:' + Math.max(6, LEN - slide) + 'px',
         'transition:height .26s ease',
@@ -2507,18 +2504,16 @@ class Component extends DCLogic {
         'background:linear-gradient(to ' + (top ? 'top' : 'bottom') + ', rgba(255,255,255,0.7), rgba(255,255,255,0.12))',
         'pointer-events:none',
       ].join(';');
-      // merged card: the label IS the card title; on hover the description morphs from the pointer end.
       const cardStyle = [
         'position:absolute', 'left:0', 'transform:translateX(-50%)',
         top ? ('bottom:' + (LEN + 5 - slide) + 'px') : ('top:' + (LEN + 5) + 'px'),
-        'transition:bottom .26s ease, top .26s ease',
+        'transition:bottom .26s ease, top .26s ease, padding .26s ease, background .26s ease, border-color .26s ease, box-shadow .26s ease',
         'display:flex', 'flex-direction:column', 'align-items:center',
         'width:198px',
         'padding:' + (visible ? '8px 11px' : '0'),
         'border-radius:11px',
         'transform-origin:' + (top ? 'bottom center' : 'top center'),
         'overflow:hidden',
-        'transition:padding .26s ease, background .26s ease, border-color .26s ease, box-shadow .26s ease',
         'pointer-events:auto', 'z-index:7',
         (visible ? liquidCardBg : 'background:transparent;border:1px solid transparent;box-shadow:none;'),
       ].join(';');
