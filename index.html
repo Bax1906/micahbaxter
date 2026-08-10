@@ -1355,8 +1355,8 @@
   <sc-if value="{{ tvcLbIsVid }}">
     <video ref="{{ tvcVidBigRef }}" playsinline="" controls="{{ isTrue }}" controlslist="nodownload" style="width:min(1200px,92vw);max-height:82vh;border-radius:14px;border:1px solid rgba(127,209,255,0.28);background:#05070a;box-shadow:0 40px 100px rgba(0,0,0,0.75);"></video>
   </sc-if>
-  <button onClick="{{ tvcLbPrev }}" aria-label="Previous" style="position:absolute;left:26px;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.2);background:rgba(8,10,14,0.7);backdrop-filter:blur(8px);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:background .2s;" style-hover="background:rgba(127,209,255,0.28);border-color:rgba(127,209,255,0.6);">‹</button>
-  <button onClick="{{ tvcLbNext }}" aria-label="Next" style="position:absolute;right:26px;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.2);background:rgba(8,10,14,0.7);backdrop-filter:blur(8px);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:background .2s;" style-hover="background:rgba(127,209,255,0.28);border-color:rgba(127,209,255,0.6);">›</button>
+  <button onClick="{{ tvcLbPrev }}" aria-label="Previous" style="position:absolute;left:26px;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;display:{{ tvcLbNavDisplay }};align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.2);background:rgba(8,10,14,0.7);backdrop-filter:blur(8px);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:background .2s;" style-hover="background:rgba(127,209,255,0.28);border-color:rgba(127,209,255,0.6);">‹</button>
+  <button onClick="{{ tvcLbNext }}" aria-label="Next" style="position:absolute;right:26px;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;display:{{ tvcLbNavDisplay }};align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.2);background:rgba(8,10,14,0.7);backdrop-filter:blur(8px);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:background .2s;" style-hover="background:rgba(127,209,255,0.28);border-color:rgba(127,209,255,0.6);">›</button>
   <button onClick="{{ closeTvcLb }}" aria-label="Close" style="position:absolute;top:26px;right:30px;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(8,10,14,0.7);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:18px;line-height:1;cursor:pointer;">✕</button>
   <div style="position:absolute;left:0;right:0;bottom:24px;text-align:center;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:10px;letter-spacing:0.16em;color:rgba(255,255,255,0.55);pointer-events:none;">{{ tvcLbCounter }}</div>
 </div>
@@ -1988,6 +1988,10 @@ class Component extends DCLogic {
     [this.viewerRef, this.viewer2Ref].forEach((ref) => {
       const v = ref.current; if (!v || v._fbWired) return;
       v._fbWired = true;
+      v.addEventListener('load', () => {
+        const a = this.viewerRef.current, b = this.viewer2Ref.current;
+        if (a && a.loaded && b && b.loaded && !this.state.omegaReady) this.setState({ omegaReady: true });
+      });
       v.addEventListener('error', () => {
         const cur = (v.getAttribute('src') || '').split('?')[0];
         if (this.OMEGA_FALLBACK[cur] && !this.state.omegaRemote) this.setState({ omegaRemote: true });
@@ -2521,16 +2525,17 @@ class Component extends DCLogic {
     const hov = this.state.hover;
     const labelData = this.state.labels || this.HOTSPOTS.map(h => ({ label: h.label, side: h.side, pos: h.pos, desc: h.desc || '' }));
     const anchor1 = this.state.labelRowY * vsc;
-    const hotspots = labelData.map((h, i) => buildLabel(h, hov === i, anchor1, {
+    const omegaReady = !!this.state.omegaReady;
+    const hotspots = omegaReady ? labelData.map((h, i) => buildLabel(h, hov === i, anchor1, {
       onEnter: this.onEnter(i), onLeave: this.onLeave, onDown: this.startDrag(i), onFlip: this.flipSide(i), onDesc: this.onDesc(i),
-    }));
+    })) : [];
 
     const hov2 = this.state.hover2;
     const labelData2 = this.state.labels2 || this.HOTSPOTS2.map(h => ({ label: h.label, side: h.side, pos: h.pos, desc: h.desc || '' }));
     const anchor2 = this.state.model2Y * vsc;
-    const hotspots2 = labelData2.map((h, i) => buildLabel(h, hov2 === i, anchor2, {
+    const hotspots2 = omegaReady ? labelData2.map((h, i) => buildLabel(h, hov2 === i, anchor2, {
       onEnter: this.onEnter2(i), onLeave: this.onLeave2, onDown: this.startDrag2(i), onFlip: this.flipSide2(i), onDesc: this.onDesc2(i),
-    }));
+    })) : [];
 
     const groups = this.props.groups ?? [
       { label: 'Rocketry', items: [
@@ -2764,6 +2769,7 @@ class Component extends DCLogic {
       tvcPicId: (this.state.tvcLb && (this.tvcItems(this.state.tvcLb.pfx)[this.state.tvcLb.idx] || {}).id) || 'tvc-lightbox',
       tvcPicSrc: this.tvcLbPicSrc(),
       tvcLbCounter: this.state.tvcLb ? (this.state.tvcLb.idx + 1) + ' / ' + this.tvcItems(this.state.tvcLb.pfx).length : '',
+      tvcLbNavDisplay: (this.state.tvcLb && this.tvcItems(this.state.tvcLb.pfx).length > 1) ? 'flex' : 'none',
       tvcLbPrev: this.stepTvcLb(-1),
       tvcLbNext: this.stepTvcLb(1),
       closeTvcLb: this.closeTvcLb,
