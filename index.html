@@ -182,7 +182,7 @@
             <div style="{{ h.boxSheen }}"></div>
             <div style="{{ h.titleStyle }}">{{ h.label }}</div>
             <div style="{{ h.descWrapStyle }}">
-              <textarea defaultValue="{{ h.desc }}" onInput="{{ h.onDesc }}" placeholder="Add a brief description…" style="position: relative; width: 100%; field-sizing: content; min-height: 14px; overflow: hidden; background: transparent; border: none; outline: none; resize: none; color: rgba(255,255,255,0.85); font-family: Rajdhani,sans-serif; font-size: 10px; line-height: 1.38; letter-spacing: 0.01em"></textarea>
+              <textarea defaultValue="{{ h.desc }}" onInput="{{ h.onDesc }}" readOnly="{{ h.lockText }}" placeholder="Add a brief description…" style="position: relative; width: 100%; field-sizing: content; min-height: 14px; overflow: hidden; background: transparent; border: none; outline: none; resize: none; color: rgba(255,255,255,0.85); font-family: Rajdhani,sans-serif; font-size: 10px; line-height: 1.38; letter-spacing: 0.01em"></textarea>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@
             <div style="{{ h.boxSheen }}"></div>
             <div style="{{ h.titleStyle }}">{{ h.label }}</div>
             <div style="{{ h.descWrapStyle }}">
-              <textarea defaultValue="{{ h.desc }}" onInput="{{ h.onDesc }}" placeholder="Add a brief description…" style="position: relative; width: 100%; field-sizing: content; min-height: 14px; overflow: hidden; background: transparent; border: none; outline: none; resize: none; color: rgba(255,255,255,0.85); font-family: Rajdhani,sans-serif; font-size: 10px; line-height: 1.38; letter-spacing: 0.01em"></textarea>
+              <textarea defaultValue="{{ h.desc }}" onInput="{{ h.onDesc }}" readOnly="{{ h.lockText }}" placeholder="Add a brief description…" style="position: relative; width: 100%; field-sizing: content; min-height: 14px; overflow: hidden; background: transparent; border: none; outline: none; resize: none; color: rgba(255,255,255,0.85); font-family: Rajdhani,sans-serif; font-size: 10px; line-height: 1.38; letter-spacing: 0.01em"></textarea>
             </div>
           </div>
         </div>
@@ -210,7 +210,7 @@
     <div style="position:absolute;bottom:86px;left:400px;right:372px;z-index:2;height:1px;pointer-events:none;background:linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 12%, rgba(255,255,255,0.5) 88%, rgba(255,255,255,0) 100%);"></div>
 
     <!-- overview box, bottom-right -->
-    <div style="position:absolute;right:48px;bottom:32px;z-index:2;width:296px;padding:16px 18px 17px;border-radius:14px;background:rgba(7,8,11,0.84);border:1px solid rgba(255,255,255,0.1);border-top:2px solid rgba(255,255,255,0.85);">
+    <div style="position:absolute;right:32px;bottom:24px;z-index:2;width:284px;padding:16px 18px 17px;border-radius:14px;background:rgba(7,8,11,0.84);border:1px solid rgba(255,255,255,0.1);border-top:2px solid rgba(255,255,255,0.85);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
         <div style="width:6px;height:6px;border-radius:50%;background:#fff;"></div>
         <div style="font-family:Rajdhani,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#fff;">Overview</div>
@@ -1123,7 +1123,7 @@
       <!-- subtle dotted-grid texture to fill the voids -->
       <div style="position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(127,209,255,0.5) 1px, transparent 1px);background-size:38px 38px;opacity:0.05;-webkit-mask-image:radial-gradient(135% 105% at 50% 38%, #000 0%, #000 46%, transparent 84%);mask-image:radial-gradient(135% 105% at 50% 38%, #000 0%, #000 46%, transparent 84%);"></div>
       <div style="{{ aboutGlowStyle }}"></div>
-      <div style="position:relative;max-width:1120px;margin:0 auto;padding:{{ aboutPadTop }}px 56px 32px;zoom:{{ aboutZoom }};" data-screen-label="About">
+      <div style="position:relative;max-width:1340px;margin:0 auto;padding:{{ aboutPadTop }}px 64px 32px;zoom:{{ aboutZoom }};" data-screen-label="About">
 
         <!-- header -->
         <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
@@ -1137,9 +1137,9 @@
           <!-- bio -->
           <div style="position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:4px 0 4px 32px;">
             <div style="position:absolute;left:-10px;top:6%;bottom:6%;width:1px;background:linear-gradient(to bottom, transparent, rgba(127,209,255,0.34) 20%, rgba(127,209,255,0.34) 80%, transparent);"></div>
-            <p style="margin:0;font-size:18px;font-weight:400;line-height:2.05;letter-spacing:0.01em;color:rgba(255,255,255,0.82);">I am a committed Mechanical Engineering student at Liberty University with a minor in Physics driven by a deep personal passion for rocketry and solving the most complex challenges. With proficiency in a variety of CAD, PCB design, and programming tools, I am fully self-taught, enabling me to pursue ambitious goals.</p>
-            <p style="margin:0;font-size:18px;font-weight:400;line-height:2.05;letter-spacing:0.01em;color:rgba(255,255,255,0.82);">Some of my personal projects include developing and flying a thrust-vector control model rocket, complete with a launchpad and custom avionics. Currently, I am working on a regeneratively-cooled bipropellant liquid rocket engine and hope to complete it by Summer 2027.</p>
-            <p style="margin:0;font-size:18px;font-weight:400;line-height:2.05;letter-spacing:0.01em;color:rgba(255,255,255,0.82);">With this as my foundation, I am excited to contribute to the Liberty Rocketry Team as the Chief Engineer for our 2027 vehicle, Exodus. I look forward to using my skills to further the program and gain invaluable experience in the industry.</p>
+            <p style="margin:0;font-size:20px;font-weight:400;line-height:1.9;letter-spacing:0.01em;color:rgba(255,255,255,0.82);">I am a committed Mechanical Engineering student at Liberty University with a minor in Physics driven by a deep personal passion for rocketry and solving the most complex challenges. With proficiency in a variety of CAD, PCB design, and programming tools, I am fully self-taught, enabling me to pursue ambitious goals.</p>
+            <p style="margin:0;font-size:20px;font-weight:400;line-height:1.9;letter-spacing:0.01em;color:rgba(255,255,255,0.82);">Some of my personal projects include developing and flying a thrust-vector control model rocket, complete with a launchpad and custom avionics. Currently, I am working on a regeneratively-cooled bipropellant liquid rocket engine and hope to complete it by Summer 2027.</p>
+            <p style="margin:0;font-size:20px;font-weight:400;line-height:1.9;letter-spacing:0.01em;color:rgba(255,255,255,0.82);">With this as my foundation, I am excited to contribute to the Liberty Rocketry Team as the Chief Engineer for our 2027 vehicle, Exodus. I look forward to using my skills to further the program and gain invaluable experience in the industry.</p>
           </div>
 
           <!-- portrait -->
@@ -2170,7 +2170,7 @@ class Component extends DCLogic {
   };
   syncTvcVids = () => {
     const r = this.state.route;
-    const galleryRoute = (r === 'TVC Rockets' || r === 'Mousetrap Car');
+    const galleryRoute = (r === 'TVC Rockets' || r === 'Mousetrap Car' || r === 'Puzzle Boxes');
     Object.entries(this.tvcVidRefs).forEach(([k, ref]) => {
       const el = ref.current; if (!el) return;
       const on = k.startsWith('mtc') ? (r === 'Mousetrap Car') : (r === 'TVC Rockets');
@@ -2396,7 +2396,7 @@ class Component extends DCLogic {
     // they occupy the same relative size as on a large monitor
     const pageZoom = Math.max(0.72, Math.min(1, (typeof window !== 'undefined' ? window.innerWidth : 1680) / 1680));
     // About must fit the viewport without scrolling — also constrain by height
-    const aboutZoom = Math.max(0.5, Math.min(pageZoom, (typeof window !== 'undefined' ? window.innerHeight : 1042) / 1042));
+    const aboutZoom = Math.max(0.62, Math.min(pageZoom, (typeof window !== 'undefined' ? window.innerHeight : 960) / 960));
     // align the About title vertically with the Avionics title (which sits at 200px * pageZoom)
     const aboutPadTop = Math.round(200 * pageZoom / aboutZoom);
     // Resume section adjustable glow (tweakable)
@@ -2509,8 +2509,11 @@ class Component extends DCLogic {
           : 'background:rgba(10,12,17,0.3);text-shadow:0 1px 7px rgba(0,0,0,0.85);'),
         'pointer-events:auto', 'cursor:' + (editLabels ? 'grab' : 'pointer'),
       ].join(';');
+      const lockText = !(window.omelette && window.omelette.writeFile);
+      const hideDesc = lockText && !(h.desc || '').trim();
       const descWrapStyle = [
         'width:100%', 'overflow:hidden',
+        hideDesc ? 'display:none' : '',
         'max-height:' + (visible ? '220px' : '0'),
         'opacity:' + (visible ? '1' : '0'),
         'margin-top:' + (visible ? '5px' : '0'),
@@ -2519,7 +2522,7 @@ class Component extends DCLogic {
       const boxSheen = (liquid && visible)
         ? 'position:absolute;top:0;left:0;right:0;height:42%;pointer-events:none;background:linear-gradient(to bottom, rgba(255,255,255,0.12), rgba(255,255,255,0));'
         : 'display:none;';
-      return Object.assign({}, h, { wrapStyle, dotStyle, lineStyle, cardStyle, titleStyle, descWrapStyle, boxSheen }, handlers);
+      return Object.assign({}, h, { wrapStyle, dotStyle, lineStyle, cardStyle, titleStyle, descWrapStyle, boxSheen, lockText }, handlers);
     };
 
     const hov = this.state.hover;
