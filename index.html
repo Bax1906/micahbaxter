@@ -1304,7 +1304,7 @@
     <video ref="{{ lbVideoRef }}" playsinline="" controls="{{ isTrue }}" controlslist="nodownload" style="width:min(1200px,92vw);max-height:82vh;border-radius:14px;border:1px solid rgba(127,209,255,0.28);background:#05070a;box-shadow:0 40px 100px rgba(0,0,0,0.75);"></video>
   </sc-if>
   <sc-if value="{{ lbIsPic }}" hint-placeholder-val="">
-    <img ref="{{ lightboxImgRef }}" src="{{ lightboxSrc }}" alt="Expanded gallery image" style="max-width:88vw;max-height:88vh;object-fit:contain;border-radius:14px;box-shadow:0 40px 100px rgba(0,0,0,0.75);border:1px solid rgba(127,209,255,0.28);">
+    <img ref="{{ lightboxImgRef }}" alt="Expanded gallery image" style="max-width:88vw;max-height:88vh;object-fit:contain;border-radius:14px;box-shadow:0 40px 100px rgba(0,0,0,0.75);border:1px solid rgba(127,209,255,0.28);">
   </sc-if>
   <div style="position:absolute;top:26px;right:30px;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(8,10,14,0.7);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:18px;line-height:1;">✕</div>
   <button onClick="{{ lightboxPrev }}" aria-label="Previous image" style="position:absolute;left:24px;top:50%;transform:translateY(-50%);display:{{ lightboxNavDisplay }};width:52px;height:52px;border-radius:50%;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.2);background:rgba(8,10,14,0.7);backdrop-filter:blur(8px);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:background .2s;" style-hover="background:rgba(127,209,255,0.28);border-color:rgba(127,209,255,0.6);">‹</button>
@@ -1990,9 +1990,11 @@ class Component extends DCLogic {
       this._pendingLightboxSrc = null;
     }
     // persist tuning whenever any tunable changes
-    for (let i = 0; i < this.TUNE_KEYS.length; i++) {
-      const k = this.TUNE_KEYS[i];
-      if (prevState[k] !== this.state[k]) { this.saveTune(); break; }
+    if (prevState) {
+      for (let i = 0; i < this.TUNE_KEYS.length; i++) {
+        const k = this.TUNE_KEYS[i];
+        if (prevState[k] !== this.state[k]) { this.saveTune(); break; }
+      }
     }
   }
   componentWillUnmount() {
@@ -2036,7 +2038,13 @@ class Component extends DCLogic {
     this.setState({ lightbox: self, lightboxList: list.length ? list : [self], lightboxPos: pos }, this.syncLbVideo);
   };
   lbVideoRef = React.createRef();
+  syncLbImg = () => {
+    const im = this.lightboxImgRef.current;
+    const cur = this.state.lightbox;
+    if (im && cur && cur !== 'PADVIDEO' && im.getAttribute('src') !== cur) im.src = cur;
+  };
   syncLbVideo = () => {
+    this.syncLbImg();
     const b = this.lbVideoRef.current; if (!b) return;
     if (this.state.lightbox === 'PADVIDEO') {
       if (!b.getAttribute('src')) b.setAttribute('src', 'uploads/Video%20Project.mp4');
@@ -2142,6 +2150,7 @@ class Component extends DCLogic {
   };
   syncTvcVids = () => {
     const r = this.state.route;
+    const galleryRoute = (r === 'TVC Rockets' || r === 'Mousetrap Car');
     Object.entries(this.tvcVidRefs).forEach(([k, ref]) => {
       const el = ref.current; if (!el) return;
       const on = k.startsWith('mtc') ? (r === 'Mousetrap Car') : (r === 'TVC Rockets');
@@ -2149,7 +2158,7 @@ class Component extends DCLogic {
       if (!on) { el.pause(); return; }
       if (src && el.getAttribute('src') !== src) { el.src = src; el.muted = true; el.loop = true; el.play().catch(() => {}); }
     });
-    if (!on) {
+    if (!galleryRoute) {
       const b = this.tvcVidBigRef.current; if (b) b.pause();
       if (this.state.tvcLb) this.setState({ tvcLb: null });
     }
