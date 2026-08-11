@@ -1740,7 +1740,7 @@ class Component extends DCLogic {
   };
 
   // ── label persistence + interaction ─────────────────────────────────────
-  saveLabels = (labels) => { try { localStorage.setItem('omega-labels-v2', JSON.stringify(labels)); } catch (e) {} };
+  saveLabels = (labels) => { try { localStorage.setItem('omega-labels-v3', JSON.stringify(labels)); } catch (e) {} };
 
   onEnter = (i) => () => {
     if (this.state.editLabels) return;
@@ -1795,7 +1795,7 @@ class Component extends DCLogic {
   };
 
   // ── model 2 label handlers (parallel set) ────────────────────────────────
-  saveLabels2 = (labels) => { try { localStorage.setItem('omega-labels2-v2', JSON.stringify(labels)); } catch (e) {} };
+  saveLabels2 = (labels) => { try { localStorage.setItem('omega-labels2-v3', JSON.stringify(labels)); } catch (e) {} };
   onEnter2 = (i) => () => {
     if (this.state.editLabels) return;
     if (this._hideT2) { clearTimeout(this._hideT2); this._hideT2 = null; }
@@ -1915,12 +1915,12 @@ class Component extends DCLogic {
 
     let labels = this.HOTSPOTS.map(h => ({ label: h.label, side: h.side, pos: h.pos, desc: h.desc || '' }));
     try {
-      const saved = JSON.parse(localStorage.getItem('omega-labels-v2'));
+      const saved = JSON.parse(localStorage.getItem('omega-labels-v3'));
       if (Array.isArray(saved) && saved.length === labels.length) labels = saved;
     } catch (e) {}
     let labels2 = this.HOTSPOTS2.map(h => ({ label: h.label, side: h.side, pos: h.pos, desc: h.desc || '' }));
     try {
-      const saved2 = JSON.parse(localStorage.getItem('omega-labels2-v2'));
+      const saved2 = JSON.parse(localStorage.getItem('omega-labels2-v3'));
       if (Array.isArray(saved2) && saved2.length === labels2.length) labels2 = saved2;
     } catch (e) {}
     try { const ov = localStorage.getItem('omega-overview-v1'); if (typeof ov === 'string' && ov.length) this.setState({ overview: ov }); } catch (e) {}
